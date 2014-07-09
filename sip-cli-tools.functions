@@ -49,7 +49,7 @@ sip_cli_tool_checks()
    test -x /usr/local/bin/pjsua || install_pjsua_from_sources
 }
 
-pjsua_client()
+_pjsua_client()
 {
    pjsua --registrar=sip:$SIP_SERVER \
          --id=sip:$SIP_USERNAME@$SIP_SERVER \
@@ -58,7 +58,17 @@ pjsua_client()
          --null-audio \
          --color \
          --realm=* \
-         --proxy=sip:$SIP_SERVER \
-         --app-log-level=3 \
-         --no-cli-console
+         --proxy=sip:$SIP_SERVER
 }
+
+
+pjsua_client()
+{
+
+  if [ "x$DEBUG" != "x" ]; then
+     _pjsua_client
+  else
+     _pjsua_client >/dev/null
+  fi
+}
+

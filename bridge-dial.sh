@@ -42,10 +42,10 @@ MY_EXTENSION=${2:-$MY_EXTENSION}
 
 function pjsua_cli_commands() {
    sleep 5
-   echo "\nDIALING INTO THE BRIDGE $BRIDGE_NUMBER" >&2
+   echo "DIALING INTO THE BRIDGE $BRIDGE_NUMBER" >&2
    echo m ; echo "sip:$BRIDGE_NUMBER@sip.redhat.com"
    sleep 10
-   echo "\nENTERING CONFERENCE NUMBER $CONFERENCE_NUMBER" >&2
+   echo "ENTERING CONFERENCE NUMBER $CONFERENCE_NUMBER" >&2
    for key in $(echo $CONFERENCE_NUMBER | fold -w1); do
       echo "*";  echo $key
       usleep 400000
@@ -53,10 +53,10 @@ function pjsua_cli_commands() {
    echo "*"; echo "#"
    sleep 2 # leave some time to let it send all the DTMFs
            # before transfer
-   echo "\nTRANSFERING BACK TO  $MY_EXTENSION" >&2
+   echo "TRANSFERING BACK TO  $MY_EXTENSION" >&2
    echo "x";  echo "sip:$MY_EXTENSION@sip.redhat.com"
    sleep 10
-   echo "\nDONE, CLOSING" >&2
+   echo "DONE, CLOSING" >&2
    echo "q"
 }
 

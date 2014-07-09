@@ -40,7 +40,7 @@ source ~/.bridge_dial
 PHONE_NUMBER=$1
 MY_EXTENSION=${2:-$MY_EXTENSION}
 
-if [ "$PHONE_NUMBERx"=="x" ]; then
+if [ "x$PHONE_NUMBER" == "x" ]; then
    echo "Usage:"
    echo ""
    echo "   dial.sh phone-number [callback-number]"
@@ -49,13 +49,13 @@ fi
 
 function pjsua_cli_commands() {
    sleep 5
-   echo "\nDIALING INTO THE NUMBER $PHONE_NUMBER" >&2
+   echo "DIALING INTO THE NUMBER $PHONE_NUMBER" >&2
    echo m ; echo "sip:$PHONE_NUMBER@sip.redhat.com"
    sleep 5
-   echo "\nTRANSFERING BACK TO  $MY_EXTENSION" >&2
+   echo "TRANSFERING BACK TO  $MY_EXTENSION" >&2
    echo "x";  echo "sip:$MY_EXTENSION@sip.redhat.com"
    sleep 10
-   echo "\nDONE, CLOSING" >&2
+   echo "DONE, CLOSING" >&2
    echo "q"
 }
 

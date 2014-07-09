@@ -16,3 +16,6 @@ Usage:
      bridge-dial.sh conference-number [callback-phone-number]
 
 
+
+prepend DEBUG=1 to dial.sh o bridge-dial.sh if you want debug information
+on SIP signaling, etc...
