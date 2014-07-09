@@ -1,0 +1,64 @@
+create_default_config_file()
+{
+
+  cat >~/.bridge_dial <<EOF
+# the number you dial to get into a conference bridge
+BRIDGE_NUMBER=16666
+
+# your extension, where you will be called back redhat internal number
+MY_EXTENSION=
+
+# your default conference number
+CONFERENCE_NUMBER=
+
+# your SIP username and password
+SIP_USERNAME=
+SIP_PASSWORD=
+
+# the sip server of your company, will be used as proxy, registrar, etc.
+SIP_SERVER=
+
+EOF
+  echo Default configuration file created for bridge-dial.sh
+  echo Go and edit your ~/.bridge_dial settings
+  exit 1
+}
+
+
+install_pjsua_from_sources()
+{
+  echo "We're about to install pjsua SIP client from sources in /tmp,"
+  read -p "you will need sudo access and gcc/g++/make, etc press ENTER or CTRL+C"
+  echo ""
+  cd /tmp
+  echo "downloading and building in /tmp"
+  echo ""
+  rm -f pjproject-2.2.1.tar.bz2 || echo "starting download"
+  wget -c http://www.pjsip.org/release/2.2.1/pjproject-2.2.1.tar.bz2
+  tar xvfj pjproject-2.2.1.tar.bz2
+  cd pjproject-2.2.1
+  ./configure
+  make -j5
+  sudo make install
+  sudo cp -v pjsip-apps/bin/pjsua* /usr/local/bin/pjsua
+}
+
+sip_cli_tool_checks()
+{
+   test -f ~/.bridge_dial || create_default_config_file
+   test -x /usr/local/bin/pjsua || install_pjsua_from_sources
+}
+
+pjsua_client()
+{
+   pjsua --registrar=sip:$SIP_SERVER \
+         --id=sip:$SIP_USERNAME@$SIP_SERVER \
+         --username=$SIP_USERNAME \
+         --password=$SIP_PASSWORD \
+         --null-audio \
+         --color \
+         --realm=* \
+         --proxy=sip:$SIP_SERVER \
+         --app-log-level=3 \
+         --no-cli-console
+}
