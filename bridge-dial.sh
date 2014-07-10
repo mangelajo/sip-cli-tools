@@ -48,7 +48,7 @@ function pjsua_cli_commands() {
    echo "ENTERING CONFERENCE NUMBER $CONFERENCE_NUMBER" >&2
    for key in $(echo $CONFERENCE_NUMBER | fold -w1); do
       echo "*";  echo $key
-      usleep 400000
+      sleep 0.4
    done
    echo "*"; echo "#"
    sleep 2 # leave some time to let it send all the DTMFs
@@ -61,5 +61,3 @@ function pjsua_cli_commands() {
 }
 
 pjsua_cli_commands | pjsua_client
-
-
